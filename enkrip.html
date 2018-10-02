@@ -1,0 +1,43 @@
+<html>
+	<head>
+		<title>Header Generator - by Luki</title>
+		
+		<script type="text/javascript" src="components/core-min.js"></script>
+		<script type="text/javascript" src="components/md5-min.js"></script>
+		<script type="text/javascript" src="components/evpkdf.js"></script>
+		<script type="text/javascript" src="components/cipher-core.js"></script>
+		<script type="text/javascript" src="components/enc-base64-min.js"></script>
+		<script type="text/javascript" src="components/sha256-min.js"></script>
+		<script type="text/javascript" src="components/aes-min.js"></script>
+		
+		<script type="text/javascript">
+			function acang(param){
+
+				var privateKey = CryptoJS.SHA256("13L0w412713SD").toString();
+				var trxid = CryptoJS.MD5(param + privateKey + "SUKSES").toString();
+				var encrypted = CryptoJS.AES.encrypt("tes", "aesKey", {iv: "aesIV", padding: CryptoJS.pad.Pkcs7, mode: CryptoJS.mode.CBC});
+				var wordArray = CryptoJS.enc.Utf8.parse(encrypted);
+				encrypted = CryptoJS.enc.Base64.stringify(wordArray);
+
+
+				// alert("sign: " +  trxid + ", encrypted: " + encrypted);
+				document.getElementById("result1").innerHTML = trxid;
+				document.getElementById("result2").innerHTML = encrypted;
+			}
+
+			function submitIt(){
+				var getParam = document.getElementById('searchParam').value;
+				acang(getParam);
+			} 
+		</script>
+	</head>
+	<body>
+		input text
+		<input type="text" id="searchParam"/>
+		<button onclick="submitIt()">submit</button>
+
+		<br>
+		sign: <p id="result1"></p>
+		encrypted: <p id="result2"></p>
+	</body>
+</html>
